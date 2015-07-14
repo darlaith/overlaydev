@@ -7,7 +7,7 @@ EAPI=5
 XORG_MULTILIB=yes
 inherit xorg-2
 
-DESCRIPTION="X.Org libdrm library"
+DESCRIPTION="X.Org libdrm library (amdgpu branch)"
 HOMEPAGE="http://dri.freedesktop.org/"
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="git://anongit.freedesktop.org/git/mesa/drm"
@@ -16,7 +16,7 @@ else
 fi
 
 KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x64-freebsd ~x86-freebsd ~amd64-linux ~arm-linux ~x86-linux"
-VIDEO_CARDS="exynos freedreno intel nouveau omap radeon tegra vmware"
+VIDEO_CARDS="exynos freedreno intel nouveau omap radeon amdgpu tegra vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
@@ -49,6 +49,7 @@ src_configure() {
 		$(use_enable video_cards_nouveau nouveau)
 		$(use_enable video_cards_omap omap-experimental-api)
 		$(use_enable video_cards_radeon radeon)
+		$(use_enable video_cards_amdgpu amdgpu)
 		$(use_enable video_cards_tegra tegra-experimental-api)
 		$(use_enable video_cards_vmware vmwgfx)
 		$(use_enable libkms)
