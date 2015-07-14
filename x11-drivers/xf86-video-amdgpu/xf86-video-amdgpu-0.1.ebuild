@@ -7,11 +7,13 @@ EAPI=5
 XORG_DRI=always
 inherit linux-info xorg-2
 
-DESCRIPTION="ATI video driver"
+DESCRIPTION="AMDGPU video driver"
 HOMEPAGE="http://www.x.org/wiki/ati/"
 
 KEYWORDS="alpha amd64 ia64 ppc ppc64 sparc x86"
 IUSE="+glamor udev"
+
+EGIT_REPO_URI="git://anongit.freedesktop.org/git/xorg/driver/xf86-video-amdgpu"
 
 RDEPEND=">=x11-libs/libdrm-2.4.58[video_cards_radeon,video_card_amdgpu]
 	>=x11-libs/libpciaccess-0.8.0
