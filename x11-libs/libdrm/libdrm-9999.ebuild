@@ -11,7 +11,7 @@ DESCRIPTION="X.Org libdrm library (amdgpu branch)"
 HOMEPAGE="http://dri.freedesktop.org/"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/git/mesa/drm"
-EGIT_BRANCH="amdcpu" 
+EGIT_BRANCH="amdgpu" 
 
 #LICENSE=""
 KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x64-freebsd ~x86-freebsd ~amd64-linux ~arm-linux ~x86-linux"
