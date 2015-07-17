@@ -10,7 +10,8 @@ inherit xorg-2 git-2
 DESCRIPTION="X.Org libdrm library (amdgpu branch)"
 HOMEPAGE="http://dri.freedesktop.org/"
 
-EGIT_REPO_URI="git://anongit.freedesktop.org/git/mesa/drm"
+#EGIT_REPO_URI="git://anongit.freedesktop.org/git/mesa/drm"
+EGIT_REPO_URI="git://people.freedesktop.org/~agd5f/drm"
 EGIT_BRANCH="amdgpu"
 
 #LICENSE=""
