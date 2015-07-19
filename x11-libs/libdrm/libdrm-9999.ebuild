@@ -34,7 +34,7 @@ src_prepare() {
 	# tests are restricted, no point in building them
 	sed -ie 's/tests //' "${S}"/Makefile.am
 	# bug in makefile include
-	sed -ie 's|<drm/drm.h|<drm.h>|g' "${S}"/include/drm/amdgpu_drm.h
+	sed -ie 's|<drm/drm.h>|<drm.h>|g' "${S}"/include/drm/amdgpu_drm.h
 	xorg-2_src_prepare
 }
 
