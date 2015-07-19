@@ -57,3 +57,10 @@ src_configure() {
 
 	xorg-2_src_configure
 }
+
+src_make() {
+	echo "current `pwd`"
+	ls
+	sed -i "s|<drm/drm.h|<drm.h>|g" include/drm/amdgpu_drm.h
+	gmake
+}
