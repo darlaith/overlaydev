@@ -1,10 +1,10 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit eutils git-r3 toolchain-funcs
+inherit eutils git-r3 toolchain-funcs flag-o-matic
 
 DESCRIPTION="Command line media player for the Raspberry Pi"
 HOMEPAGE="https://github.com/popcornmix/omxplayer"
@@ -16,15 +16,19 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="dev-libs/libpcre
+	media-fonts/freefont
 	|| ( media-libs/raspberrypi-userland media-libs/raspberrypi-userland-bin )
-	virtual/ffmpeg
 	sys-apps/dbus
-	sys-apps/fbset"
+	sys-apps/fbset
+	virtual/ffmpeg
+	x11-apps/xrefresh
+	x11-apps/xset"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-0_p20150421-Makefile.patch
+	epatch "${FILESDIR}"/Makefile-0_p20160217.patch \
+		"${FILESDIR}"/fonts-path.patch
 
 	cat > Makefile.include << EOF
 LIBS=-lvchiq_arm -lvcos -lbcm_host -lEGL -lGLESv2 -lopenmaxil -lrt -lpthread
