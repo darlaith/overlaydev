@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="6"
+EAPI="5"
 
 inherit eutils
 
@@ -63,7 +63,7 @@ src_install() {
 
 	insinto ${UMS_HOME}
 	doins -r ums.jar *.conf documentation plugins renderers *.xml
-	dodoc CHANGELOG.txt README.md
+	#dodoc CHANGELOG.txt README.md
 
 	newicon -s 32 icon-32.png ${PN}.png
 	newicon -s 256 icon-256.png ${PN}.png
