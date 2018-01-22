@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,19 +6,24 @@ EAPI="5"
 
 inherit eutils
 
-DESCRIPTION="DLNA compliant UPNP server for streaming media"
-HOMEPAGE="https://github.com/UniversalMediaServer/UniversalMediaServer"
-SRC_URI="www.fosshub.com/UniversalMediaServer.html/UMS-${PV}-Java7.tgz"
+DESCRIPTION="Universal Media Server is a DLNA-compliant UPnP Media Server."
+HOMEPAGE="http://www.universalmediaserver.com/"
+SRC_URI="mirror://sourceforge/project/unimediaserver/Official%20Releases/Linux/UMS-${PV}.tgz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86"
-IUSE="multiuser +transcode"
+KEYWORDS="~amd64 ~x86 ~arm64"
+IUSE="+dcraw +ffmpeg +libmediainfo +libzen +mplayer multiuser tsmuxer +vlc"
 
 DEPEND="app-arch/unzip"
-RDEPEND=">=virtual/jre-1.7.0
-	media-libs/libmediainfo
-	transcode? ( media-video/mplayer[encode] )"
+RDEPEND=">=virtual/jre-1.8.0
+	dcraw? ( media-gfx/dcraw )
+	ffmpeg? ( media-video/ffmpeg[encode] )
+	libmediainfo? ( media-libs/libmediainfo )
+	libzen? ( media-libs/libzen )
+	mplayer? ( media-video/mplayer[encode] )
+	tsmuxer? ( media-video/tsmuxer ) 
+	vlc? ( media-video/vlc[encode] ) "
 
 S=${WORKDIR}/ums-${PV}
 UMS_HOME=/opt/${PN}
@@ -63,7 +68,8 @@ src_install() {
 
 	insinto ${UMS_HOME}
 	doins -r ums.jar *.conf documentation plugins renderers *.xml
-	#dodoc CHANGELOG.txt README.md
+	use tsmuxer && dosym /opt/tsmuxer/bin/tsMuxeR ${UMS_HOME}/linux/tsMuxeR
+	dodoc CHANGELOG.txt README.md
 
 	newicon -s 32 icon-32.png ${PN}.png
 	newicon -s 256 icon-256.png ${PN}.png
@@ -77,9 +83,9 @@ src_install() {
 pkg_postinst() {
 	if [[ -z ${REPLACING_VERSIONS} ]]; then
 		ewarn "Don't forget to disable transcoding engines for software"
-		ewarn "that you don't have installed (such as having the VLC"
+		ewarn "that you don't have installed (such as having the ffmpeg"
 		ewarn "transcoding engine enabled when you only have mencoder)."
 	elif use multiuser; then
-		ewarn "Remember to refresh the files in ~/.universalmediaserver/"
+		ewarn "Remember to refresh the files in ~/.config/UMS/"
 	fi
 }
