@@ -1,0 +1,32 @@
+# /etc/conf.d/mumudvb
+# Config file for mumudvb control script
+
+# Change the following vars only if you know
+# what you're doing, there's no checking for
+# invalid data yet!
+
+# owner of mumudvb process (must exists)
+USER="media"
+GROUP="video"
+
+# logfile (/dev/null for nowhere)
+LOG="/var/log/mumudvb.log"
+
+# set to true, if you have enabled logging to syslog in mumudvb with
+#     set log_to_syslog true
+USE_LOGGER=false
+
+# daemon control
+DAEMON=/usr/bin/mumudvb
+PID_DIR=/var/run/mumudvb
+CONF_DIR=/etc/mumudvb
+
+# nice level, 0<x<19, more nice -> less cpuspeed consumed
+NICE="19"
+
+# service ip, usually localhost
+SERVER="localhost"
+
+# port for webinterface, usually 4080
+PORT="4080"
+
