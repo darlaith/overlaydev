@@ -1,0 +1,67 @@
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v3
+# $Id$
+
+USER=${USER:-root}
+GROUP=${GROUP:-video}
+PID_DIR=${PID_DIR:-/var/run/mumudvb}
+LOG_FILE=${LOG_FILE:-/var/log/mumudvb.log}
+CONF_DIR=${CONF_FILE:-/etc/mumudvb}
+DAEMON=${DAEMON:-/usr/bin/mumudvb}
+ADAPTERS=${ADAPTERS:-0}
+NICE=${NICE:-0}
+
+TRUE=true
+FALSE=false
+
+depend() {
+	use net logger
+}
+
+start() {
+	ebegin "Starting MuMuDVB Digital Television streaming"]
+	if [ ! -d $PID_DIR ]; then
+		mkdir -p $PID_DIR
+	fi
+	chown -R $USER:$GROUP $PID_DIR
+	success=false
+	for ADAPTER in $ADAPTERS; do
+		ebegin "	Starting card $ADAPTER"
+		CONF_FILE=${CONF_DIR}/card_${ADAPTER}.conf
+		if [ -f $CONF_FILE ]; then
+			start-stop-daemon --start --name mumudvb_$ADAPTER\
+				--user $USER\
+				--group $GROUP --exec $DAEMON --nicelevel $NICE -- $DAEMON_OPTS\
+				--card $ADAPTER --config $CONF_FILE
+			if [[ $? == 0 ]]; then
+				success=true
+				eend 0
+			else
+				eend 2
+				eerror "		Unable to start card $ADAPTER"
+			fi
+		else
+			eend 1
+			eerror "		Configuration file for card $ADAPTER not found"
+		fi
+	done
+	if ! $success ; then
+		eerror "Unable to start MuMuDVB service"
+	else
+		einfo "MuMuDVB successfully started on some cards"
+	fi
+	return $($success)
+}
+
+stop() {
+	ebegin "Stopping MuMuDVB Digital Television streaming"
+	success=false
+	for PID_FILE in $(ls $PID_DIR/mumudvb_adapter*.pid 2> /dev/null); do
+		start-stop-daemon --stop --pidfile "$PID_FILE" --exec $DAEMON
+		if [[ $? != 0 ]] ; then
+			success=true
+		fi
+	done
+	eend $($success)
+}

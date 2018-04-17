@@ -30,8 +30,9 @@ src_prepare() {
 
 src_install() {
 	default
-	doinitd "${FILESDIR}/mumudvb"
-	#doinitd "${S}/scripts/debian/etc/init.d/mumudvb"
-	insinto "/etc"
-	doins "${FILESDIR}/mumudvb.conf"
+	newinitd "${FILESDIR}/initd_mumudvb" "mumudvb"
+	newconfd "${FILESDIR}/confd_mumudvb" "mumudvb"
+	dodir "/etc/mumudvb"
+	insinto "/etc/mumudvb"
+	doins "${FILESDIR}/card_0.conf.example"
 }
