@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 EGIT_REPO_URI="https://github.com/RetroShare/RetroShare.git"
 inherit eutils git-r3 gnome2-utils qmake-utils versionator
@@ -66,7 +66,7 @@ src_prepare() {
 		libretroshare/src/rsserver/rsinit.cc \
 		|| die "sed on libretroshare/src/rsserver/rsinit.cc failed"
 
-	rs_src_dirs="libbitdht/src openpgpsdk/src libresapi/src libretroshare/src supportlibs/pegmarkdown"
+	rs_src_dirs="libbitdht/src openpgpsdk/src libretroshare/src libresapi/src supportlibs/pegmarkdown"
 	use cli && rs_src_dirs="${rs_src_dirs} retroshare-nogui/src"
 	use feedreader && rs_src_dirs="${rs_src_dirs} plugins/FeedReader"
 	use gui && rs_src_dirs="${rs_src_dirs} retroshare-gui/src"
@@ -87,7 +87,7 @@ src_prepare() {
 src_configure() {
 	for dir in ${rs_src_dirs} ; do
 		pushd "${S}/${dir}" >/dev/null || die
-		eqmake5 $(use gnome-keyring && echo CONFIG+=rs_autologin)
+		eqmake5 $(user gnome-keyring && echo CONFIG+=rs_autologin)
 		popd >/dev/null || die
 	done
 }
@@ -119,7 +119,7 @@ src_install() {
 	doins -r libresapi/src/webui
 
 	dodoc README.md
-	make_desktop_entry retroshare
+	make_desktop_entry RetroShare06
 	for i in 24 48 64 128 ; do
 		doicon -s ${i} "data/${i}x${i}/apps/retroshare.png"
 	done
